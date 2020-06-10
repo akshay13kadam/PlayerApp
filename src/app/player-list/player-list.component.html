@@ -1,0 +1,95 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+      <h1 style="text-align: center">Player</h1><br>
+      <div class="row" [hidden]="!deleteMessage">
+           
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                        <div class="alert alert-info alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <strong>Player Data Deleted</strong>
+                        </div>
+                </div>
+                <div class="col-sm-4"></div>
+        </div>           
+    </div>
+
+  
+  <div class="panel-body">
+      <table  class="table table-hover table-sm" datatable [dtOptions]="dtOptions"
+      [dtTrigger]="dtTrigger"  >
+          <thead class="thead-light">
+              <tr>
+                  <th>Player Name</th>
+                  <th>Player Email</th>
+                  <th>Player Role</th>
+                  <th>Action</th>
+                  
+              </tr>
+          </thead>
+          <tbody>
+               <tr *ngFor="let player of players ">
+                  <td>{{player.player_name}}</td>
+                  <td>{{player.player_email}}</td>
+                  <td>{{player.player_role}}</td>
+                  <td><button (click)="deletePlayer(player.player_id)" class='btn btn-primary'><i class="fa fa-futboll-0">Delete</i></button>&nbsp;
+                    <button (click)="updatePlayer(player.player_id)" class='btn btn-info'
+                    data-toggle="modal" data-target="#myModal">Update</button>
+                  </td>
+                </tr> 
+          </tbody><br>
+      </table>
+  </div>
+</div> 
+
+<div class="modal" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+                <form [formGroup]="playerupdateform" #updstu (ngSubmit)="updatePly(updply)">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title" style="text-align: center">Update Student</h4>
+              
+            </div>
+            
+            <!-- Modal body -->
+            <div class="modal-body" *ngFor="let player of playerlist " >
+                <div [hidden]="isupdated">
+
+                    <input type="hidden" class="form-control"  formControlName="player_id" [(ngModel)]="player.player_id">
+                            <div class="form-group">
+                                <label for="name">Student Name</label>
+                                <input type="text" class="form-control"  formControlName="player_name" [(ngModel)]="player.player_name"  >
+                            </div>
+                    
+                            <div class="form-group">
+                                <label for="name">Student Email</label>
+                                <input type="text" class="form-control" formControlName="player_email" [(ngModel)]="player.player_email">
+                            </div>
+                    
+                            <div class="form-group">
+                                <label for="name">Player Role</label>
+                                  <select class="form-control" formControlName="player_role" required>                                   
+                                    <option value="Batsman" [selected]="'Batsman' == player.player_role">Batsman</option>
+                                    <option value="Boller" [selected]="'Boller' == player.player_role">Boller</option>
+                                    <option value="Keeper" [selected]="'Keeper' == player.player_role" >Keeper</option>
+                                    <option value="Allrounder" [selected]="'Allrounder' == player.player_role">Allrounder</option>
+                                  </select>                               
+                            </div>                   
+                  </div>  
+                  <div [hidden]="!isupdated">
+                      <h4>Player Detail Updated!</h4>
+                  </div>        
+                    
+            </div>
+            
+            <!-- Modal footer -->
+            <div class="modal-footer" >
+              <button type="submit" class="btn btn-success" [hidden]="isupdated">Update</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="changeisUpdate()">Close</button>
+            </div>
+            
+        </form>
+          </div>
+        </div>
+      </div>
